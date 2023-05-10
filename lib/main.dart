@@ -58,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
     "Random": "随机"
   };
 
+  String miss="StarCraft II,Protoss,Zerg,Nzx,Mzx,Mzs,906906,906,九妹,藍兔,Hui,mrbeast,館長,IEM,ESL,SC2,StarCraft,Onion Man";
+
   TextEditingController controller = TextEditingController();
   String tw = "";
   String ch = "";
@@ -186,6 +188,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     border: Border.all(color: Colors.black),
                   ),
                   child: Text("#startcraft2 #星海爭霸 #gaming",
+                    style: TextStyle(fontSize: 24),)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () async {
+                await Clipboard.setData(
+                    ClipboardData(text: miss));
+              },
+              child: Container(
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: Text("Miss",
                     style: TextStyle(fontSize: 24),)),
             ),
           ],
