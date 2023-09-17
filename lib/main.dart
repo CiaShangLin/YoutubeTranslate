@@ -58,13 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
     "Random": "随机"
   };
 
-  String miss="StarCraft II,Protoss,Zerg,Nzx,Mzx,Mzs,906906,906,九妹,藍兔,Hui,mrbeast,館長,IEM,ESL,SC2,StarCraft,Onion Man";
+  String miss =
+      "StarCraft II,Protoss,Zerg,Nzx,Mzx,Mzs,906906,906,九妹,藍兔,Hui,mrbeast,館長,IEM,ESL,SC2,StarCraft,Onion Man";
 
   TextEditingController controller = TextEditingController();
   String tw = "";
-  String ch = "";
-  String ja = "";
-  String kr = "";
+  String en = "";
 
   @override
   Widget build(BuildContext context) {
@@ -85,29 +84,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: controller,
                 onChanged: (text) {
                   setState(() {
-                    var temp = text;
+
+                    var temp = translate(text);
+                    en = temp;
                     eng_to_tw.entries.forEach((element) {
                       temp = temp.replaceAll(element.key, element.value);
                     });
                     tw = temp;
-
-                    temp = text;
-                    eng_to_ch.entries.forEach((element) {
-                      temp = temp.replaceAll(element.key, element.value);
-                    });
-                    ch = temp;
-
-                    temp = text;
-                    eng_to_ja.entries.forEach((element) {
-                      temp = temp.replaceAll(element.key, element.value);
-                    });
-                    ja = temp;
-
-                    temp = text;
-                    eng_to_kr.entries.forEach((element) {
-                      temp = temp.replaceAll(element.key, element.value);
-                    });
-                    kr = temp;
                   });
                 },
               ),
@@ -134,45 +117,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             InkWell(
               onTap: () async {
-                await Clipboard.setData(ClipboardData(text: ch));
+                await Clipboard.setData(ClipboardData(text: en));
               },
               child: Container(
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
-                  child: Text(ch,
-                    style: TextStyle(fontSize: 24),)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () async {
-                await Clipboard.setData(ClipboardData(text: ja));
-              },
-              child: Container(
-                  margin: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: Text(ja,
-                    style: TextStyle(fontSize: 24),)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () async {
-                await Clipboard.setData(ClipboardData(text: kr));
-              },
-              child: Container(
-                  margin: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: Text(kr,
-                    style: TextStyle(fontSize: 24),)),
+                  child: Text(
+                    en,
+                    style: TextStyle(fontSize: 24),
+                  )),
             ),
             SizedBox(
               height: 20,
@@ -187,28 +142,57 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
-                  child: Text("#startcraft2 #星海爭霸 #gaming",
-                    style: TextStyle(fontSize: 24),)),
+                  child: Text(
+                    "#startcraft2 #星海爭霸 #gaming",
+                    style: TextStyle(fontSize: 24),
+                  )),
             ),
             SizedBox(
               height: 20,
             ),
             InkWell(
               onTap: () async {
-                await Clipboard.setData(
-                    ClipboardData(text: miss));
+                await Clipboard.setData(ClipboardData(text: miss));
               },
               child: Container(
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
-                  child: Text("Miss",
-                    style: TextStyle(fontSize: 24),)),
+                  child: Text(
+                    "Miss",
+                    style: TextStyle(fontSize: 24),
+                  )),
             ),
           ],
         ),
       ),
     );
+  }
+
+  String translate(String input) {
+    RegExp regex = RegExp(r'\b\d{4}\b');
+
+    int count = 0;
+    for (Match match in regex.allMatches(input)) {
+      if (count >= 2) {
+        break;
+      }
+      input = input.replaceAll(match.group(0)!, "${match.group(0)})");
+      count++;
+    }
+
+    var list = ["Protoss", "Terran", "Zerg"];
+    for (var element in list) {
+      input = input.replaceAll(element, "($element");
+    }
+
+    String modifiedText = input.replaceAllMapped(
+      RegExp(r'(\d{4}) (\d+) (\d+) .*'),
+      (match) {
+        return '${match.group(1)}-${match.group(2)}-${match.group(3)}';
+      },
+    );
+    return modifiedText;
   }
 }
