@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
             InkWell(
               onTap: () async {
                 await Clipboard.setData(
-                    ClipboardData(text: "#startcraft2 #星海爭霸 #gaming"));
+                    ClipboardData(text: "#startcraft2 #星海爭霸2 #gaming"));
               },
               child: Container(
                   margin: EdgeInsets.all(8),
@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     border: Border.all(color: Colors.black),
                   ),
                   child: Text(
-                    "#startcraft2 #星海爭霸 #gaming",
+                    "#startcraft2 #星海爭霸2 #gaming",
                     style: TextStyle(fontSize: 24),
                   )),
             ),
